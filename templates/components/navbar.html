@@ -1,16 +1,16 @@
-<footer class="site-footer">
-  <div class="footer-grid">
-    <div>
-      <img class="footer-logo" src="{{ url_for('static', filename='logo.png') }}" alt="Store logo">
-      <p class="muted">Votre concept store lumineux : décoration, bien-être, cadeaux et essentiels du quotidien.</p>
-    </div>
-    <div>
-      <div class="foot-title">Explorer</div>
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="{{ url_for('index') }}" class="brand" aria-label="Home">
+      <img class="logo-img" src="{{ url_for('static', filename='logo.png') }}" alt="Store logo" />
+    </a>
+    <button class="nav-toggle" aria-label="Toggle Menu" onclick="toggleMenu()">☰</button>
+    <nav id="nav" class="nav">
+      <a href="{{ url_for('index') }}">Accueil</a>
       <a href="{{ url_for('shop') }}">Boutique</a>
+      <a href="{{ url_for('cart') }}">Panier <span class="badge">{{ cart_count }}</span></a>
       <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('newsletter') }}">Newsletter</a>
       <a href="{{ url_for('faq') }}">FAQ</a>
-      <a href="{{ url_for('cart') }}">Panier</a>
-    </div>
+    </nav>
   </div>
-  <div class="footer-bottom">© {{ 2025 }} Bghitha — Tous droits réservés.</div>
-</footer>
+</header>
