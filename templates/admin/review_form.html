@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if review else 'New' }} Review — Admin{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="title-row">
+      <h2 class="section-title">{{ 'Edit' if review else 'New' }} Review</h2>
+      <a class="btn" href="{{ url_for('admin_reviews') }}">Back</a>
+    </div>
+    <form method="post" class="card form narrow">
+      <label>Product</label>
+      <select name="product_id" required>
+        {% for p in products %}
+          <option value="{{ p['id'] }}" {% if review and p['id']==review['product_id'] %}selected{% endif %}>{{ p['title'] }}</option>
+        {% endfor %}
+      </select>
+      <div class="grid-2">
+        <div>
+          <label>Name</label>
+          <input name="name" value="{{ review['name'] if review else '' }}" placeholder="Reviewer display name" />
+        </div>
+        <div>
+          <label>Rating</label>
+          <select name="rating" required>
+            {% for n in [5,4,3,2,1] %}
+              <option value="{{ n }}" {% if review and review['rating']==n %}selected{% endif %}>{{ n }} stars</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <label>Review</label>
+      <textarea name="body" rows="5" placeholder="Write a helpful review...">{{ review['body'] if review else '' }}</textarea>
+      <button class="btn primary">{{ 'Update' if review else 'Create' }} Review</button>
+    </form>
+  </section>
+{% endblock %}
+

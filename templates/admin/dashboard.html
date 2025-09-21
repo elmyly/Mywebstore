@@ -1,0 +1,240 @@
+{% extends 'base.html' %}
+{% block title %}Admin Dashboard — Bghitha{% endblock %}
+{% block content %}
+  <section class="section admin-dashboard">
+    <svg class="admin-icon-sprite" aria-hidden="true" focusable="false" style="position:absolute; width:0; height:0; overflow:hidden">
+      <symbol id="icon-product" viewBox="0 0 24 24">
+        <path d="M12 3L3 7.5v9l9 4.5 9-4.5v-9L12 3z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+        <path d="M3 7.5l9 4.5 9-4.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+        <path d="M12 12v9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="icon-orders" viewBox="0 0 24 24">
+        <path d="M9.75 3h4.5l.75 3h3.75a1.5 1.5 0 0 1 1.5 1.5v11.25a1.5 1.5 0 0 1-1.5 1.5H6.75a1.5 1.5 0 0 1-1.5-1.5V7.5A1.5 1.5 0 0 1 6.75 6H10.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M9 11.25h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M9 14.25h3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-mail" viewBox="0 0 24 24">
+        <path d="M3 7.5a2.25 2.25 0 0 1 2.25-2.25h13.5A2.25 2.25 0 0 1 21 7.5v9a2.25 2.25 0 0 1-2.25 2.25H5.25A2.25 2.25 0 0 1 3 16.5v-9z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M3.75 7.5l7.62 5.085a1.5 1.5 0 0 0 1.68 0L20.7 7.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-messages" viewBox="0 0 24 24">
+        <path d="M7.5 8.25h9" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M7.5 12h5.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M21 12a8.25 8.25 0 1 0-3.1 6.45L21 21l-.45-3.1A8.2 8.2 0 0 0 21 12z" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+      </symbol>
+      <symbol id="icon-analytics" viewBox="0 0 24 24">
+        <path d="M4.5 15l3-3 3 3 6-6 3 3" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M3 6.75V18a2.25 2.25 0 0 0 2.25 2.25H18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-search" viewBox="0 0 24 24">
+        <path d="M10.5 4.5a6 6 0 1 1 0 12a6 6 0 0 1 0-12z" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <path d="M16.5 16.5L21 21" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+      <symbol id="icon-inventory" viewBox="0 0 24 24">
+        <path d="M4.5 6.75h15" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M5.25 6.75V18a1.5 1.5 0 0 0 1.5 1.5h10.5a1.5 1.5 0 0 0 1.5-1.5V6.75" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+        <path d="M9 6.75V4.5h6v2.25" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" />
+        <path d="M9 11.25h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <path d="M9 14.25h6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </symbol>
+    </svg>
+    <div class="admin-hero">
+      <div class="admin-hero-copy">
+        <span class="admin-hero-eyebrow">Bghitha · Tableau de bord</span>
+        <h1>Vue d'ensemble</h1>
+        <p>Vous avez {{ new_order_count }} commande{{ 's' if new_order_count != 1 else '' }} à traiter et {{ unread_messages }} message{{ 's' if unread_messages != 1 else '' }} en attente. Le catalogue compte {{ product_count }} produit{{ 's' if product_count != 1 else '' }}.</p>
+        <div class="admin-hero-metrics">
+          <div class="admin-hero-metric">
+            <span class="metric-label">Chiffre du jour</span>
+            <span class="metric-value">{{ price(earn_day) }}</span>
+          </div>
+          <div class="admin-hero-metric">
+            <span class="metric-label">Cette semaine</span>
+            <span class="metric-value">{{ price(earn_week) }}</span>
+          </div>
+          <div class="admin-hero-metric">
+            <span class="metric-label">Ce mois-ci</span>
+            <span class="metric-value">{{ price(earn_month) }}</span>
+          </div>
+          <div class="admin-hero-metric">
+            <span class="metric-label">Total encaissé</span>
+            <span class="metric-value">{{ price(revenue_total_cents) }}</span>
+          </div>
+        </div>
+      </div>
+      <div class="admin-hero-side">
+        <div class="admin-side-card">
+          <div class="admin-side-title">Actions rapides</div>
+          <div class="admin-quick-actions">
+            <a class="admin-quick-link" href="{{ url_for('admin_product_new') }}">
+              <span class="quick-icon" aria-hidden="true">
+                <svg class="icon icon-product" role="img" focusable="false"><use href="#icon-product"></use></svg>
+              </span>
+              <span class="quick-label">Nouveau produit</span>
+            </a>
+            <a class="admin-quick-link" href="{{ url_for('admin_orders') }}">
+              <span class="quick-icon" aria-hidden="true">
+                <svg class="icon icon-orders" role="img" focusable="false"><use href="#icon-orders"></use></svg>
+              </span>
+              <span class="quick-label">Voir les commandes</span>
+            </a>
+            <a class="admin-quick-link" href="{{ url_for('admin_newsletter') }}">
+              <span class="quick-icon" aria-hidden="true">
+                <svg class="icon icon-mail" role="img" focusable="false"><use href="#icon-mail"></use></svg>
+              </span>
+              <span class="quick-label">Newsletter</span>
+            </a>
+            <a class="admin-quick-link" href="{{ url_for('admin_messages') }}">
+              <span class="quick-icon" aria-hidden="true">
+                <svg class="icon icon-messages" role="img" focusable="false"><use href="#icon-messages"></use></svg>
+              </span>
+              <span class="quick-label">Messages clients</span>
+            </a>
+            <a class="admin-quick-link" href="{{ url_for('admin_ai') }}">
+              <span class="quick-icon" aria-hidden="true">
+                <svg class="icon icon-analytics" role="img" focusable="false"><use href="#icon-analytics"></use></svg>
+              </span>
+              <span class="quick-label">Données IA</span>
+            </a>
+            <a class="admin-quick-link" href="{{ url_for('admin_order_lookup') }}">
+              <span class="quick-icon" aria-hidden="true">
+                <svg class="icon icon-search" role="img" focusable="false"><use href="#icon-search"></use></svg>
+              </span>
+              <span class="quick-label">Recherche commande</span>
+            </a>
+          </div>
+        </div>
+        <div class="admin-side-card admin-side-card--catalogue">
+          <div class="admin-side-title">Catalogue</div>
+          <div class="admin-side-stats">
+            <div class="admin-side-stat">
+              <span class="stat-label">Publié</span>
+              <span class="stat-value">{{ published_count }}</span>
+            </div>
+            <div class="admin-side-stat">
+              <span class="stat-label">Brouillons</span>
+              <span class="stat-value">{{ draft_count }}</span>
+            </div>
+            <div class="admin-side-stat">
+              <span class="stat-label">Total</span>
+              <span class="stat-value">{{ product_count }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="admin-stat-grid">
+      <a class="admin-stat-card admin-stat-card--orders" href="{{ url_for('admin_orders') }}">
+        <div class="stat-icon">📊</div>
+        <div class="stat-content">
+          <span class="stat-label">Commandes totales</span>
+          <span class="stat-value">{{ total_orders }}</span>
+          <span class="stat-detail">{{ new_order_count }} nouvelle{{ 's' if new_order_count != 1 else '' }} à suivre</span>
+        </div>
+      </a>
+      <a class="admin-stat-card admin-stat-card--products" href="{{ url_for('admin_products') }}">
+        <div class="stat-icon">🛍️</div>
+        <div class="stat-content">
+          <span class="stat-label">Produits actifs</span>
+          <span class="stat-value">{{ published_count }}</span>
+          <span class="stat-detail">{{ draft_count }} brouillon{{ 's' if draft_count != 1 else '' }} en attente</span>
+        </div>
+      </a>
+      <a class="admin-stat-card admin-stat-card--messages" href="{{ url_for('admin_messages') }}">
+        <div class="stat-icon">💬</div>
+        <div class="stat-content">
+          <span class="stat-label">Messages non lus</span>
+          <span class="stat-value">{{ unread_messages }}</span>
+          <span class="stat-detail">À traiter depuis la boîte de réception</span>
+        </div>
+      </a>
+      <a class="admin-stat-card admin-stat-card--inventory" href="{{ url_for('admin_products') }}">
+        <div class="stat-icon">⚠️</div>
+        <div class="stat-content">
+          <span class="stat-label">Stocks critiques</span>
+          <span class="stat-value">{{ low_stock|length }}</span>
+          <span class="stat-detail">Produits ≤ 5 unités</span>
+        </div>
+      </a>
+    </div>
+
+    <div class="admin-panels-grid">
+      <div class="admin-panel admin-panel--orders">
+        <div class="admin-panel-head">
+          <h2 class="admin-panel-title">Suivi des commandes</h2>
+          <span class="admin-panel-subtitle">{{ total_orders }} commande{{ 's' if total_orders != 1 else '' }} au total</span>
+        </div>
+        {% set order_total = total_orders or 0 %}
+        {% set status_rows = [
+          ('Nouvelles', status_counts.new, 'status-new'),
+          ('En préparation', status_counts.processing, 'status-processing'),
+          ('Expédiées', status_counts.shipped, 'status-shipped'),
+          ('Terminées', status_counts.completed, 'status-completed'),
+          ('Annulées', status_counts.cancelled, 'status-cancelled'),
+        ] %}
+        {% if order_total > 0 %}
+          <div class="order-status-list">
+            {% for label, count, cls in status_rows %}
+              {% set pct = (100 * count / order_total) if order_total else 0 %}
+              <div class="order-status-row {{ cls }}">
+                <div class="row-main">
+                  <span class="order-status-label">{{ label }}</span>
+                  <span class="order-status-count">{{ count }}</span>
+                </div>
+                <div class="order-status-bar"><span style="width: {{ '%.2f' % pct }}%"></span></div>
+                <span class="order-status-percent">{{ '%.0f' % pct }}%</span>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="admin-panel-empty">Pas encore de commandes enregistrées.</div>
+        {% endif %}
+      </div>
+
+      <div class="admin-panel admin-panel--inventory">
+        <div class="admin-panel-head">
+          <h2 class="admin-panel-title">Alerte inventaire</h2>
+          <span class="admin-panel-subtitle">Priorisez la remise en stock</span>
+        </div>
+        {% if low_stock %}
+          <ul class="inventory-list">
+            {% for p in low_stock %}
+              <li>
+                <div class="inventory-info">
+                  <span class="inventory-name">{{ p['title'] }}</span>
+                  <span class="inventory-stock">{{ p['stock'] }} en stock</span>
+                </div>
+                <a class="inventory-link" href="{{ url_for('admin_product_edit', pid=p['id']) }}">Ajuster</a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="admin-panel-empty">Pas d'alerte, les étagères sont pleines ✨</div>
+        {% endif %}
+      </div>
+
+      <div class="admin-panel admin-panel--top">
+        <div class="admin-panel-head">
+          <h2 class="admin-panel-title">Top produits (30 derniers jours)</h2>
+          <span class="admin-panel-subtitle">Classement par unités vendues</span>
+        </div>
+        {% if top_products %}
+          <ul class="top-products">
+            {% for t in top_products %}
+              <li>
+                <div class="top-products-info">
+                  <span class="top-product-name">{{ t.title }}</span>
+                  <span class="top-product-units">{{ t.qty }} vendu{{ 's' if t.qty != 1 else '' }}</span>
+                </div>
+                <span class="top-product-revenue">{{ price(t.revenue) }}</span>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <div class="admin-panel-empty">Aucune vente sur les 30 derniers jours.</div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}

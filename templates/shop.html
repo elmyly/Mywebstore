@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Boutique — Bghitha{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="toolbar">
+      <form method="get" class="search search-shop">
+        <input type="text" name="q" placeholder="Rechercher des produits..." value="{{ q }}" />
+        <button class="btn primary">Rechercher</button>
+      </form>
+    </div>
+    {% if products %}
+      <div class="grid">
+        {% for product in products %}
+          {% set product = product %}
+          {% include 'components/product_card.html' %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">Aucun produit ne correspond à votre recherche.</div>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Newsletter — Bghitha{% endblock %}
+{% block content %}
+  <section class="section newsletter-simple">
+    <div class="newsletter-banner">Rejoignez la liste lumineuse de Bghitha ✨ </div>
+    <form method="post" class="newsletter-simple-form">
+      <label class="sr-only" for="newsletterEmail">Adresse e-mail</label>
+      <div class="newsletter-simple-row">
+        <input id="newsletterEmail" type="email" name="email" placeholder="vous@exemple.com" required />
+        <button class="btn primary" type="submit">Je m'inscris</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

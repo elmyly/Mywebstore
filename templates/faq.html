@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}FAQ — Bghitha{% endblock %}
+{% block content %}
+  <section class="section faq">
+    <div class="faq-header">
+      <h1 class="section-title">Centre d'aide</h1>
+      <p class="muted">Questions fréquentes à gauche, assistant IA à droite.</p>
+    </div>
+
+    <div class="faq-two-col">
+      <div class="faq-left">
+        <h2 class="subtle-title">Questions fréquentes</h2>
+        {% if faqs %}
+          <div class="faq-list">
+            {% for item in faqs %}
+              <article class="faq-card">
+                <div class="q">{{ item.q }}</div>
+                <div class="a">{{ item.a }}</div>
+              </article>
+            {% endfor %}
+          </div>
+        {% else %}
+          <div class="empty">No FAQs yet.</div>
+        {% endif %}
+      </div>
+      <div class="faq-right">
+        <form class="faq-card faq-ai" method="post">
+          <div class="ai-head">
+            <div class="dot"></div>
+            <div>
+              <div class="title">Assistant Bghitha</div>
+              <div class="hint">Posez votre question, réponse instantanée</div>
+            </div>
+          </div>
+          <label for="faqQuestion" class="sr-only">Votre question</label>
+          <textarea id="faqQuestion" name="question" rows="6" placeholder="Exemple : Quels sont vos délais de livraison ?" required>{{ ai_question or '' }}</textarea>
+          <button class="btn primary" type="submit">Demander</button>
+          {% if ai_answer %}
+            <div class="ai-answer">
+              <div class="answer-title">Réponse</div>
+              <p>{{ ai_answer }}</p>
+            </div>
+          {% endif %}
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}

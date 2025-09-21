@@ -1,0 +1,5 @@
+Flask>=2.3,<3.0
+qrcode>=7.4
+Pillow>=9.5
+python-barcode>=0.15
+gunicorn>=21.2

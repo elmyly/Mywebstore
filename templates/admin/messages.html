@@ -1,0 +1,144 @@
+{% extends 'base.html' %}
+{% block title %}Messages — Admin{% endblock %}
+{% block content %}
+  <section class="section admin">
+    <h2 class="section-title">✉️ Messages</h2>
+    {% if messages %}
+      <div class="messages-grid">
+        {% for m in messages %}
+          <button type="button"
+                  class="message-pill {{ 'unread' if not m['is_read'] else '' }}"
+                  data-id="{{ m['id'] }}"
+                  data-name="{{ m['name'] }}"
+                  data-whatsapp="{{ m['whatsapp'] or '' }}"
+                  data-subject="{{ m['subject'] or 'No subject' }}"
+                  data-created="{{ m['created_at'][:19].replace('T',' ') }}"
+                  data-message="{{ m['message']|replace('\n', '&#10;') }}"
+                  data-read="{{ 1 if m['is_read'] else 0 }}">
+            <div class="pill-top">
+              <div class="pill-title">
+                <span class="pill-name">{{ m['name'] }}</span>
+                <span class="msg-badge {{ 'read' if m['is_read'] else 'new' }}">{{ 'Read' if m['is_read'] else 'New' }}</span>
+              </div>
+              <span class="pill-date">{{ m['created_at'][:19].replace('T',' ') }}</span>
+            </div>
+            <div class="pill-subject">{{ m['subject'] or 'No subject' }}</div>
+            <div class="pill-contact">
+              <span class="pill-contact-label">WhatsApp</span>
+              <span class="pill-contact-value">{{ m['whatsapp'] or 'Non communiqué' }}</span>
+            </div>
+            <div class="pill-snippet">{{ m['message'][:120] }}{% if m['message']|length > 120 %}…{% endif %}</div>
+          </button>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty-state">No messages yet.</p>
+    {% endif %}
+  </section>
+
+  <div id="messageModal" class="message-modal hidden" role="dialog" aria-modal="true" aria-labelledby="messageSubject" aria-hidden="true">
+    <div class="message-modal-card">
+      <button class="message-modal-close" type="button" aria-label="Close">×</button>
+      <header class="message-modal-header">
+        <div>
+          <h3 id="messageSubject" class="message-modal-subject">Subject</h3>
+          <div class="message-modal-meta">
+            <span data-field="name"></span>
+            <span>•</span>
+            <a data-field="whatsapp" href="#" target="_blank" rel="noopener"></a>
+          </div>
+        </div>
+        <div class="message-modal-side">
+          <span class="msg-badge" data-field="status"></span>
+          <span class="message-modal-date" data-field="created"></span>
+        </div>
+      </header>
+      <article class="message-modal-body" data-field="message"></article>
+      <footer class="message-modal-actions">
+        <form id="messageToggleForm" method="post">
+          <input type="hidden" name="id" value="">
+          <input type="hidden" name="action" value="toggle">
+          <button type="submit" class="btn secondary">Mark Read</button>
+        </form>
+        <form id="messageDeleteForm" method="post" onsubmit="return confirm('Delete this message?')">
+          <input type="hidden" name="id" value="">
+          <input type="hidden" name="action" value="delete">
+          <button type="submit" class="btn danger">Delete</button>
+        </form>
+      </footer>
+    </div>
+  </div>
+{% endblock %}
+
+{% block scripts %}
+  {{ super() }}
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const modal = document.getElementById('messageModal');
+      if(!modal){ return; }
+      const closeBtn = modal.querySelector('.message-modal-close');
+      const subjectEl = modal.querySelector('.message-modal-subject');
+      const nameEl = modal.querySelector('[data-field="name"]');
+      const whatsappEl = modal.querySelector('[data-field="whatsapp"]');
+      const statusEl = modal.querySelector('[data-field="status"]');
+      const dateEl = modal.querySelector('[data-field="created"]');
+      const bodyEl = modal.querySelector('[data-field="message"]');
+      const toggleForm = modal.querySelector('#messageToggleForm');
+      const toggleBtn = toggleForm.querySelector('button');
+      const deleteForm = modal.querySelector('#messageDeleteForm');
+
+      function closeModal(){
+        modal.classList.add('hidden');
+        modal.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('modal-open');
+      }
+
+      function openModal(data){
+        subjectEl.textContent = data.subject;
+        nameEl.textContent = data.name;
+        const whatsappValue = data.whatsapp || '';
+        whatsappEl.textContent = whatsappValue || 'WhatsApp non communiqué';
+        const normalized = whatsappValue.replace(/[^0-9+]/g, '');
+        const waDigits = normalized.startsWith('+') ? normalized.slice(1) : normalized;
+        if (waDigits){
+          whatsappEl.href = `https://wa.me/${waDigits}`;
+          whatsappEl.setAttribute('target', '_blank');
+          whatsappEl.setAttribute('rel', 'noopener');
+          whatsappEl.classList.remove('disabled');
+        }else{
+          whatsappEl.removeAttribute('href');
+          whatsappEl.removeAttribute('target');
+          whatsappEl.removeAttribute('rel');
+          whatsappEl.classList.add('disabled');
+        }
+        statusEl.textContent = data.read === '1' ? 'Read' : 'New';
+        statusEl.className = `msg-badge ${data.read === '1' ? 'read' : 'new'}`;
+        dateEl.textContent = data.created;
+        bodyEl.textContent = data.message;
+        toggleForm.querySelector('input[name="id"]').value = data.id;
+        deleteForm.querySelector('input[name="id"]').value = data.id;
+        toggleBtn.textContent = data.read === '1' ? 'Mark Unread' : 'Mark Read';
+        modal.classList.remove('hidden');
+        modal.removeAttribute('aria-hidden');
+        document.body.classList.add('modal-open');
+        toggleBtn.focus();
+      }
+
+      document.querySelectorAll('.message-pill').forEach(btn => {
+        btn.addEventListener('click', () => {
+          openModal(btn.dataset);
+        });
+      });
+
+      closeBtn.addEventListener('click', closeModal);
+      modal.addEventListener('click', (e) => {
+        if(e.target === modal){ closeModal(); }
+      });
+      document.addEventListener('keydown', (e) => {
+        if(e.key === 'Escape' && !modal.classList.contains('hidden')){
+          closeModal();
+        }
+      });
+    });
+  </script>
+{% endblock %}

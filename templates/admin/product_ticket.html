@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Product Ticket — {{ product['title'] }}{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="title-row">
+      <h2 class="section-title">Product Ticket</h2>
+      <div class="actions">
+        <a class="btn" href="{{ url_for('admin_product_edit', pid=product['id']) }}">Edit</a>
+        <button class="btn" onclick="window.print()">Print</button>
+      </div>
+    </div>
+    <div class="ticket card">
+      <div class="ticket-head">
+        {% if store_logo %}
+          <img class="logo" src="{{ store_logo }}" alt="logo" />
+        {% else %}
+          <div class="brand mark">Bghitha</div>
+        {% endif %}
+        <div class="muted">SKU: {{ product['sku'] or '—' }} • ID: {{ product['ticket_id'] or product['id'] }}</div>
+      </div>
+      <div class="ticket-body">
+        <div class="ticket-info">
+          <div class="title">{{ product['title'] }}</div>
+          <div class="price">
+            {% if product['discount_cents'] and product['discount_cents'] < product['price_cents'] %}
+              <span class="old-price">{{ price(product['price_cents']) }}</span>
+              <span class="new-price">{{ price(product['discount_cents']) }}</span>
+            {% else %}
+              <span class="new-price">{{ price(product['price_cents']) }}</span>
+            {% endif %}
+          </div>
+          <div class="muted">Category: {{ product['category'] or '—' }} | Stock: {{ product['stock'] }}</div>
+          <div class="muted">{{ product_url }}</div>
+        </div>
+        <div class="ticket-codes">
+          <img class="qr" src="{{ qr_img }}" alt="QR to product"/>
+          <img class="barcode" src="{{ barcode_img }}" alt="Product ID barcode"/>
+        </div>
+      </div>
+      <div class="handwrite">
+        <div contenteditable="true" class="handwrite-box" spellcheck="false"></div>
+      </div>
+    </div>
+  </section>
+  <style>
+    .ticket{padding:24px;}
+    .ticket-body{display:grid; grid-template-columns:1.2fr 1fr; gap:20px; align-items:center}
+    .ticket-info .title{font-weight:700; font-size:22px; margin-bottom:8px}
+    .ticket .price .new-price{font-weight:700; color:#0d9488}
+    .ticket .price .old-price{text-decoration:line-through; color:#777; margin-right:8px}
+    .ticket-codes{display:grid; gap:8px; justify-items:center}
+    .ticket-codes .qr{width:160px; height:160px; object-fit:contain}
+    .ticket-codes .barcode{width:260px; height:auto}
+    .ticket-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px}
+    .ticket-head .logo{height:44px}
+    .handwrite{margin-top:14px}
+    .handwrite-box{min-height:100px; border:2px dashed #cbd5e1; border-radius:12px; padding:10px}
+    @media print{
+      .site-header, .site-footer, .flash-wrap, .title-row{display:none !important}
+      .container{max-width:100%; padding:0}
+      body{background:#fff}
+      .ticket{border:1px solid #ddd}
+    }
+  </style>
+{% endblock %}

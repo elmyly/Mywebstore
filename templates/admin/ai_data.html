@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}AI Data — Admin{% endblock %}
+{% block content %}
+  <section class="section admin">
+    <div class="title-row">
+      <h2 class="section-title">🤖 AI Data</h2>
+      <a class="btn" href="{{ url_for('faq') }}" target="_blank" rel="noopener">View FAQ</a>
+    </div>
+    <form method="post" class="card form">
+      <label for="aiContext">Store context for AI (used to answer FAQs)</label>
+      <textarea id="aiContext" name="context" rows="10" placeholder="Ex: Politique de retour, délais de livraison, zones desservies, frais, contact, etc.">{{ context }}</textarea>
+      <div style="display:flex; gap:12px; justify-content:flex-end">
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </section>
+{% endblock %}

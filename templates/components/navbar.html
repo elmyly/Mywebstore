@@ -1,0 +1,21 @@
+<header class="site-header">
+  <div class="nav-wrap">
+    <a href="{{ url_for('index') }}" class="brand" aria-label="Home">
+      <img class="logo-img" src="{{ url_for('static', filename='logo.png') }}" alt="Store logo" />
+    </a>
+    <button class="nav-toggle" aria-label="Toggle Menu" onclick="toggleMenu()">☰</button>
+    <nav id="nav" class="nav">
+      <a href="{{ url_for('index') }}">Accueil</a>
+      <a href="{{ url_for('shop') }}">Boutique</a>
+      <a href="{{ url_for('cart') }}">Panier <span class="badge">{{ cart_count }}</span></a>
+      <a href="{{ url_for('contact') }}">Contact</a>
+      <a href="{{ url_for('newsletter') }}">Newsletter</a>
+      <a href="{{ url_for('faq') }}">FAQ</a>
+      {% if admin_username %}
+        <a href="{{ url_for('admin_dashboard') }}" class="admin-pill">Espace Admin</a>
+      {% else %}
+        <a href="{{ url_for('admin_login') }}" class="admin-pill">Espace Admin</a>
+      {% endif %}
+    </nav>
+  </div>
+</header>

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8" />
+    <title>Nouveau produit</title>
+    <style>
+      body { margin:0; font-family: 'Segoe UI', Arial, sans-serif; background:#f3f6fd; color:#1f3147; }
+      .hero { padding:32px 0; background:linear-gradient(135deg,#4f8bff,#9fd4ff); text-align:center; color:#fff; }
+      .hero h1 { margin:0; font-size:28px; }
+      .wrapper { max-width:640px; margin:0 auto; background:#ffffff; border-radius:18px; overflow:hidden; box-shadow:0 18px 46px rgba(15,23,42,.18); }
+      .content { padding:32px; }
+      .cta { display:inline-block; padding:14px 26px; border-radius:999px; background:#3d8dff; color:#fff; text-decoration:none; font-weight:700; }
+      .product-card { margin:26px 0; border-radius:16px; overflow:hidden; border:1px solid #e0e7ff; }
+      .product-card img { width:100%; height:260px; object-fit:cover; display:block; }
+      .product-card .info { padding:22px; }
+      .info h2 { margin:0 0 12px; }
+      .footer { padding:24px; text-align:center; font-size:12px; color:#6b7a99; }
+      @media (max-width:600px){ .content { padding:24px; } }
+    </style>
+  </head>
+  <body>
+    <div class="hero">
+      <h1>Un nouveau coup de cœur vient d'arriver !</h1>
+      <p>Merci de faire partie de la famille Bghitha ✨</p>
+    </div>
+    <div class="wrapper">
+      <div class="content">
+        <p>Bonjour,</p>
+        <p>Nous venons d'ajouter <strong>{{ product['title'] }}</strong> à notre collection. Une pièce sélectionnée avec soin, prête à illuminer votre quotidien.</p>
+        <div class="product-card">
+          {% if product_cover_url %}
+            <img src="{{ product_cover_url }}" alt="{{ product['title'] }}" style="display:block; width:100%; height:auto; border:0; outline:none; text-decoration:none;" />
+          {% endif %}
+          <div class="info">
+            <h2>{{ product['title'] }}</h2>
+            <p>{{ product['description_html']|striptags|truncate(220, True, '…') }}</p>
+            <p style="font-size:18px; font-weight:700; color:#0f766e;">{{ price(product['price_cents']) }}</p>
+            <p><a class="cta" href="{{ product_url }}">Découvrir le produit</a></p>
+          </div>
+        </div>
+        <p>Besoin d'aide ou envie de partager une idée ? Répondez simplement à ce message, nous lisons chaque réponse avec attention.</p>
+        <p>À très vite,<br>L'équipe Bghitha</p>
+      </div>
+      <div class="footer">
+        Vous recevez cet e-mail car vous avez demandé à être informé(e) des nouveautés.<br/>
+        Cliquez <a href="#">ici</a> pour vous désinscrire (bientôt disponible).
+      </div>
+    </div>
+  </body>
+</html>

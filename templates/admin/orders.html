@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}Orders — Admin{% endblock %}
+{% block content %}
+  <section class="section admin">
+    <div class="title-row">
+      <h2 class="section-title">📦 Orders</h2>
+      <div class="actions top-actions" style="display:flex; gap:8px; flex-wrap:wrap; align-items:center">
+        <a class="btn outline {{ '' if current_status else 'active' }}" href="{{ url_for('admin_orders') }}">
+          All 🧮 <span class="badge count all">{{ counts.total }}</span>
+        </a>
+        <a class="btn outline {{ 'active' if current_status=='new' else '' }}" href="{{ url_for('admin_orders') }}?status=new">
+          New 🆕 <span class="badge count new">{{ counts.new }}</span>
+        </a>
+        <a class="btn outline {{ 'active' if current_status=='processing' else '' }}" href="{{ url_for('admin_orders') }}?status=processing">
+          Processing ⚙️ <span class="badge count processing">{{ counts.processing }}</span>
+        </a>
+        <a class="btn outline {{ 'active' if current_status=='shipped' else '' }}" href="{{ url_for('admin_orders') }}?status=shipped">
+          Shipped 🚚 <span class="badge count shipped">{{ counts.shipped }}</span>
+        </a>
+        <a class="btn outline {{ 'active' if current_status=='completed' else '' }}" href="{{ url_for('admin_orders') }}?status=completed">
+          Completed ✅ <span class="badge count completed">{{ counts.completed }}</span>
+        </a>
+        <a class="btn outline {{ 'active' if current_status=='cancelled' else '' }}" href="{{ url_for('admin_orders') }}?status=cancelled">
+          Cancelled ❌ <span class="badge count cancelled">{{ counts.cancelled }}</span>
+        </a>
+      </div>
+    </div>
+
+    <div class="table zebra">
+      <div class="thead">
+        <div>#</div>
+        <div>Customer</div>
+        <div>Total</div>
+        <div>Status</div>
+        <div>Date</div>
+        <div></div>
+      </div>
+      {% for o in orders %}
+        <div class="trow">
+          <div>#{{ o['id'] }}</div>
+          <div>{{ o['customer_name'] }}</div>
+          <div>{{ price(o['total_cents']) }}</div>
+          <div class="badge status {{ o['status'] }}">{{ o['status'] }}</div>
+          <div>{{ o['created_at'][:19].replace('T',' ') }}</div>
+          <div><a class="link" href="{{ url_for('admin_order_detail', oid=o['id']) }}">View</a></div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% block before_footer %}
+  <div class="row-actions" style="justify-content:flex-end">
+    <form method="post" action="{{ url_for('admin_orders_clear') }}" onsubmit="return confirm('Clear all orders?')">
+      <button class="link muted" type="submit">Clear all orders</button>
+    </form>
+  </div>
+  {% endblock %}
+{% endblock %}

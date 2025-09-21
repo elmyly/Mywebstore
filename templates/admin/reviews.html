@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Reviews — Admin{% endblock %}
+{% block content %}
+  <section class="section admin">
+    <div class="title-row">
+      <h2 class="section-title">⭐ Reviews</h2>
+      <div class="actions">
+        <a class="btn" href="{{ url_for('admin_review_new') }}">➕ Add Review</a>
+      </div>
+    </div>
+    <form class="toolbar" method="get" action="{{ url_for('admin_reviews') }}">
+      <div class="form">
+        <label>Filter by Product</label>
+        <select name="product_id" onchange="this.form.submit()">
+          <option value="">All Products</option>
+          {% for p in products %}
+            <option value="{{ p['id'] }}" {% if current_pid and (p['id']|string)==(current_pid|string) %}selected{% endif %}>{{ p['title'] }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </form>
+    <div class="table">
+      <div class="thead">
+        <div>Product</div>
+        <div>Author</div>
+        <div>Rating</div>
+        <div>Review</div>
+        <div>Date</div>
+        <div></div>
+      </div>
+      {% for r in reviews %}
+        <div class="trow">
+          <div>{{ r['product_title'] or ('#'+(r['product_id']|string)) }}</div>
+          <div>{{ r['name'] }}</div>
+          <div>
+            <span class="stars"><span class="fill" style="width: {{ (r['rating'] * 20) | round(0) }}%"></span></span>
+            <span class="muted">{{ r['rating'] }}/5</span>
+          </div>
+          <div class="muted">{{ r['body'][:60] }}{% if r['body'] and r['body']|length > 60 %}…{% endif %}</div>
+          <div>{{ r['created_at'][:19].replace('T',' ') }}</div>
+          <div class="row-actions">
+            <a class="link" href="{{ url_for('admin_review_edit', rid=r['id']) }}">Edit</a>
+            <form method="post" action="{{ url_for('admin_review_delete', rid=r['id']) }}" onsubmit="return confirm('Delete this review?')">
+              <button class="link danger">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

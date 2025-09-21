@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Contact — Bghitha{% endblock %}
+{% block content %}
+  <section class="section contact-section">
+    <div class="contact-layout">
+      <div class="card contact-card contact-card--info">
+        <span class="contact-eyebrow">Support Bghitha</span>
+        <h2 class="contact-heading">Parlons sur WhatsApp</h2>
+        <p class="contact-lede">
+          Laissez-nous un message et votre numéro WhatsApp : notre équipe vous recontacte rapidement avec une réponse personnalisée.
+        </p>
+        <div class="contact-highlights">
+          <div class="contact-highlight">
+            <span class="contact-highlight-title">Réponse rapide</span>
+            <span class="contact-highlight-copy">Généralement sous 4&nbsp;heures ouvrées.</span>
+          </div>
+          <div class="contact-highlight">
+            <span class="contact-highlight-title">Service humain</span>
+            <span class="contact-highlight-copy">Un conseiller Bghitha suit votre dossier.</span>
+          </div>
+          <div class="contact-highlight">
+            <span class="contact-highlight-title">Disponibilité étendue</span>
+            <span class="contact-highlight-copy">7j/7 de 8h à 21h sur WhatsApp.</span>
+          </div>
+        </div>
+        <div class="contact-direct">
+          <div class="contact-direct-copy">
+            <span class="contact-direct-label">Besoin d'une réponse immédiate ?</span>
+            <span class="contact-direct-number">Envoyez “Bonjour Bghitha” au <strong>WhatsApp officiel</strong>.</span>
+          </div>
+          <a class="btn secondary contact-direct-btn" href="https://wa.me/" target="_blank" rel="noopener">
+            <img src="{{ url_for('static', filename='whatsapp.svg') }}" alt="" aria-hidden="true">
+            Ouvrir WhatsApp
+          </a>
+        </div>
+      </div>
+
+      <form method="post" class="card form contact-card contact-card--form">
+        <div class="contact-form-grid">
+          <div class="contact-form-field">
+            <label for="contact-name">Nom</label>
+            <input id="contact-name" name="name" placeholder="Votre nom complet" required />
+          </div>
+          <div class="contact-form-field">
+            <label for="contact-whatsapp">WhatsApp</label>
+            <input id="contact-whatsapp" name="whatsapp" type="tel" inputmode="tel" pattern="[0-9+\s-]{6,}"
+                   placeholder="Ex. +261 32 12 345 67" required />
+          </div>
+          <div class="contact-form-field contact-form-field--wide">
+            <label for="contact-subject">Sujet</label>
+            <input id="contact-subject" name="subject" placeholder="À propos de votre commande, livraison, etc." />
+          </div>
+          <div class="contact-form-field contact-form-field--wide">
+            <label for="contact-message">Message</label>
+            <textarea id="contact-message" name="message" rows="5" placeholder="Expliquez votre demande" required></textarea>
+          </div>
+        </div>
+        <button class="btn primary contact-submit">Envoyer ma demande</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

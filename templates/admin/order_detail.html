@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+{% block title %}Order #{{ order['id'] }} — Admin{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="title-row">
+      <h2 class="section-title">Order #{{ order['id'] }}</h2>
+      <div class="actions">
+        <a class="btn" href="{{ url_for('admin_order_ticket', oid=order['id']) }}">Ticket</a>
+        <a class="btn" href="{{ url_for('admin_orders') }}">Back</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="grid-2">
+        <div>
+          <div class="subtle-title">Customer</div>
+          <div>{{ order['customer_name'] }}</div>
+          <div class="muted">{{ order['email'] }} • {{ order['phone'] or '—' }}</div>
+        </div>
+        <div>
+          <div class="subtle-title">Shipping</div>
+          <div>{{ order['address'] }}</div>
+          <div class="muted">{{ order['city'] }}, {{ order['country'] }}</div>
+        </div>
+      </div>
+      <div class="subtle-title">Items</div>
+      <div class="table compact">
+        <div class="thead">
+          <div>Title</div>
+          <div>Qty</div>
+          <div>Price</div>
+          <div>Subtotal</div>
+        </div>
+        {% for i in order_items %}
+          <div class="trow">
+            <div>{{ i['title'] }}</div>
+            <div>{{ i['quantity'] }}</div>
+            <div>{{ price(i['price_cents']) }}</div>
+            <div>{{ price(i['line_total']) }}</div>
+          </div>
+        {% endfor %}
+        <div class="trow total">
+          <div></div><div></div><div>Total</div><div>{{ price(order['total_cents']) }}</div>
+        </div>
+      </div>
+      <form method="post" class="status-form">
+        <label>Status</label>
+        <select name="status">
+          {% for s in ['new','processing','shipped','completed','cancelled'] %}
+            <option value="{{ s }}" {% if order['status']==s %}selected{% endif %}>{{ s }}</option>
+          {% endfor %}
+        </select>
+        <button class="btn">Update</button>
+      </form>
+    </div>
+  </section>
+{% endblock %}

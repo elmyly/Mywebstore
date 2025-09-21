@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% block title %}Commande — Bghitha{% endblock %}
+{% block content %}
+  <section class="section checkout">
+    <h2 class="section-title">Commande</h2>
+    {% if items %}
+    <div class="checkout-grid">
+      <form method="post" class="card form">
+        <div class="grid-2">
+          <div class="col-span-2">
+            <label>Nom complet</label>
+            <input name="name" required />
+          </div>
+          <div>
+            <label>Téléphone</label>
+            <input name="phone" required />
+          </div>
+          <div>
+            <label>Ville</label>
+            <input name="city" required />
+          </div>
+          <div class="col-span-2">
+            <label>Notes</label>
+            <textarea name="notes" rows="3" placeholder="Informations de livraison, créneau souhaité, etc."></textarea>
+          </div>
+        </div>
+        <button class="btn primary full">Valider la commande</button>
+      </form>
+
+      <div class="card summary">
+        <div class="subtle-title">Récapitulatif</div>
+        {% for item in items %}
+          <div class="sum-row">
+            <div>{{ item['title'] }} × {{ item['quantity'] }}</div>
+            <div>{{ price(item['line_total']) }}</div>
+          </div>
+        {% endfor %}
+        <div class="sum-row total">
+          <div>Total</div>
+          <div>{{ price(total_cents) }}</div>
+        </div>
+      </div>
+    </div>
+    {% else %}
+      <div class="empty">Votre panier est vide.</div>
+    {% endif %}
+  </section>
+{% endblock %}

@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+{% block title %}{{ 'Edit' if product else 'New' }} Product — Admin{% endblock %}
+{% block head %}
+  <script src="https://cdn.tiny.cloud/1/{{ TINYMCE_API_KEY }}/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+{% endblock %}
+{% block scripts %}
+  <script>
+    tinymce.init({
+      selector: 'textarea.richtext',
+      plugins: 'advlist autolink lists link image charmap preview anchor searchreplace visualblocks code fullscreen insertdatetime media table help wordcount autoresize codesample',
+      toolbar: 'undo redo | blocks | bold italic underline forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image media table | codesample removeformat | preview code fullscreen',
+      height: 520,
+      menubar: 'file edit view insert format tools table help',
+      skin: 'oxide-dark',
+      content_css: 'dark',
+      content_style: "body { font-family: 'Poppins', sans-serif; line-height:1.7; }",
+      image_advtab: true,
+      branding: false,
+      promotion: false,
+      convert_urls: false,
+      toolbar_sticky: true,
+      autoresize_bottom_margin: 20
+    });
+  </script>
+{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="title-row">
+      <h2 class="section-title">{{ 'Edit' if product else 'New' }} Product</h2>
+      <div class="actions">
+        <a class="btn" href="{{ url_for('admin_products') }}">Back</a>
+      </div>
+    </div>
+    <form method="post" enctype="multipart/form-data" class="card form">
+      <div class="grid-2">
+        <div>
+          <label>Title</label>
+          <input name="title" value="{{ product['title'] if product else '' }}" required />
+        </div>
+        <div>
+          <label>Price</label>
+          <input name="price" type="number" step="0.01" min="0" value="{{ (product['price_cents']/100)|round(2) if product else '' }}" required />
+        </div>
+        <div>
+          <label>Discount Price</label>
+          <input name="discount_price" type="number" step="0.01" min="0" value="{{ ((product['discount_cents']/100)|round(2)) if product and product['discount_cents'] else '' }}" />
+        </div>
+        <div>
+          <label>Category</label>
+          <input name="category" value="{{ product['category'] if product else '' }}" />
+        </div>
+        <div>
+          <label>Tags (comma separated)</label>
+          <input name="tags" value="{{ product['tags'] if product else '' }}" />
+        </div>
+        <div>
+          <label>SKU</label>
+          <input name="sku" value="{{ product['sku'] if product else '' }}" />
+        </div>
+        <div>
+          <label>Stock</label>
+          <input name="stock" type="number" min="0" value="{{ product['stock'] if product else 0 }}" />
+        </div>
+        <div class="col-span-2">
+          <label>Description</label>
+          <textarea class="richtext" name="description" rows="10">{{ product['description_html'] if product else '' }}</textarea>
+        </div>
+        <div class="col-span-2">
+          <label>Images</label>
+          <input type="file" name="images" accept="image/*" multiple />
+          {% if product %}
+            {% set imgs = images_list(product['images']) %}
+            {% if imgs %}
+              <div class="thumb-grid">
+                {% for img in imgs %}
+                  <label class="thumb-tile">
+                    <input type="checkbox" name="remove_images" value="{{ img }}">
+                    <img src="{{ url_for('static', filename=img) }}" alt="img">
+                    <span>Remove</span>
+                  </label>
+                {% endfor %}
+              </div>
+            {% endif %}
+          {% endif %}
+        </div>
+        <div>
+          <label class="checkbox">
+            <input type="checkbox" name="published" {% if not product or product['published'] %}checked{% endif %}>
+            <span>Published</span>
+          </label>
+        </div>
+      </div>
+      <button class="btn primary">{{ 'Update' if product else 'Create' }} Product</button>
+    </form>
+  </section>
+{% endblock %}

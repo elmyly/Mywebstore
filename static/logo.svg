@@ -1,0 +1,10 @@
+<svg width="36" height="36" viewBox="0 0 36 36" xmlns="http://www.w3.org/2000/svg" aria-labelledby="title desc" role="img">
+  <title id="title">Bghitha Logo</title>
+  <desc id="desc">A friendly multi‑color emblem with four petals and a center dot.</desc>
+  <rect x="2" y="2" width="32" height="32" rx="9" fill="#ffffff" stroke="#f7dce9"/>
+  <circle cx="18" cy="10" r="9" fill="#ec4899"/>
+  <circle cx="26" cy="18" r="9" fill="#a78bfa"/>
+  <circle cx="18" cy="26" r="9" fill="#fbbf24"/>
+  <circle cx="10" cy="18" r="9" fill="#34d399"/>
+  <circle cx="18" cy="18" r="4" fill="#2b0f22"/>
+</svg>

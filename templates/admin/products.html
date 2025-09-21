@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block title %}Products — Admin{% endblock %}
+{% block content %}
+  <section class="section admin">
+    <div class="title-row">
+      <h2 class="section-title">🛍️ Products</h2>
+      <a class="btn" href="{{ url_for('admin_product_new') }}">➕ Add Product</a>
+    </div>
+    <div class="table zebra compact">
+      <div class="thead">
+        <div>Title</div>
+        <div>Price</div>
+        <div>Stock</div>
+        <div>Status</div>
+        <div>Updated</div>
+        <div></div>
+      </div>
+      {% for p in products %}
+        <div class="trow">
+          <div>
+            <a class="link" href="{{ url_for('product_detail', pid=p['id'], slug=p['slug']) }}" target="_blank" rel="noopener">{{ p['title'] }}</a>
+          </div>
+          <div>
+            {% if p['discount_cents'] and p['discount_cents'] < p['price_cents'] %}
+              <span class="old-price">{{ price(p['price_cents']) }}</span>
+              <span class="new-price">{{ price(p['discount_cents']) }}</span>
+            {% else %}
+              {{ price(p['price_cents']) }}
+            {% endif %}
+          </div>
+          <div>
+            <span class="badge stock {{ 'low' if p['stock'] <= 5 else 'ok' }}">{{ p['stock'] }}</span>
+          </div>
+          <div>
+            {% if p['published'] %}
+              <span class="badge state published">Published</span>
+            {% else %}
+              <span class="badge state draft">Draft</span>
+            {% endif %}
+          </div>
+          <div class="muted small">{{ (p['updated_at'] or '')[:19].replace('T',' ') }}</div>
+          <div class="row-actions">
+            <a class="btn outline small" href="{{ url_for('admin_product_edit', pid=p['id']) }}" aria-label="Edit product">✏️</a>
+            <a class="btn outline small" href="{{ url_for('admin_reviews', product_id=p['id']) }}">Reviews</a>
+            {% if p['published'] %}
+              <form method="post" action="{{ url_for('admin_product_draft', pid=p['id']) }}">
+                <button class="btn outline small" type="submit">  Draft</button>
+              </form>
+            {% else %}
+              <form method="post" action="{{ url_for('admin_product_publish', pid=p['id']) }}">
+                <button class="btn outline small" type="submit">Publish</button>
+              </form>
+            {% endif %}
+            <form method="post" action="{{ url_for('admin_product_duplicate', pid=p['id']) }}">
+              <button class="btn outline small" type="submit" aria-label="Duplicate product">Duplicate</button>
+            </form>
+            <form method="post" action="{{ url_for('admin_product_delete', pid=p['id']) }}" onsubmit="return confirm('Delete this product?')">
+              <button class="btn outline small" type="submit" aria-label="Delete product">Delete</button>
+            </form>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+{% endblock %}

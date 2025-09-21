@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="color-scheme" content="light">
+  <title>{% block title %}Bghitha — Everyday Favourites{% endblock %}</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><defs><linearGradient id='g' x1='0' x2='1'><stop stop-color='%238b5cf6'/><stop offset='1' stop-color='%2363b3ed'/></linearGradient></defs><circle cx='50' cy='50' r='45' fill='url(%23g)'/></svg>">
+  {% block head %}{% endblock %}
+  <meta name="description" content="Bghitha est votre magasin général moderne : objets déco, beauté, maison et cadeaux. Livraison rapide et paiement à la livraison.">
+</head>
+<body>
+  {% include 'components/navbar.html' %}
+
+  <main class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div id="flashWrap" class="flash-wrap">
+        {% for category, message in messages %}
+          {% if category != 'success' %}
+            <div class="flash {{ category }}" role="status" aria-live="polite">
+              <span>{{ message }}</span>
+              <button class="flash-close" aria-label="Close">×</button>
+            </div>
+          {% endif %}
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </main>
+  
+  <div class="container">
+    {% block before_footer %}{% endblock %}
+  </div>
+
+  {% include 'components/footer.html' %}
+
+ 
+
+  <a href="https://wa.me/212702716323" class="wa-float" target="_blank" rel="noopener" aria-label="Chat on WhatsApp">
+    <img src="{{ url_for('static', filename='whatsapp.svg') }}" alt="WhatsApp" />
+  </a>
+
+  <script src="{{ url_for('static', filename='scripts.js') }}" defer></script>
+  {% block scripts %}{% endblock %}
+</body>
+</html>

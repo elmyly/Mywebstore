@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block title %}Merci — Bghitha{% endblock %}
+{% block content %}
+  <section class="section center">
+    <div class="success">
+      <div class="check">✓</div>
+      <h2>Commande confirmée</h2>
+      <p>Votre commande n°{{ oid }} a été passée avec succès.</p>
+      <a class="btn" href="{{ url_for('shop') }}">Continuer vos achats</a>
+    </div>
+  </section>
+{% endblock %}

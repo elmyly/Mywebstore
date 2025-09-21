@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block title %}Admin Login — Bghitha{% endblock %}
+
+{% block head %}
+  <style>
+    /* Admin login page overrides: remove card background and input borders */
+    .auth .auth-card{background:transparent !important; border:0 !important; box-shadow:none !important}
+    .auth .auth-card.narrow{max-width:520px}
+    .auth .form input,
+    .auth .form input:hover,
+    .auth .form input:focus{
+      border-color:transparent !important;
+      border:0 !important;
+      box-shadow:none !important;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <section class="section auth">
+    <form method="post" class="card form auth-card narrow" autocomplete="on">
+      <h2 class="section-title small center">Admin Login</h2>
+      <p class="subtle-title" style="text-align:center; margin-top:-6px; margin-bottom:14px">Access the dashboard with your admin credentials</p>
+      <label for="username">Username</label>
+      <input id="username" name="username" placeholder="Your admin username" autocomplete="username" required autofocus>
+      <label for="password">Password</label>
+      <input id="password" type="password" name="password" placeholder="••••••••" autocomplete="current-password" required>
+      <button class="btn primary full" style="margin-top:14px">Login</button>
+    </form>
+  </section>
+{% endblock %}

@@ -1,0 +1,152 @@
+{% extends 'base.html' %}
+{% block title %}{{ product['title'] }} — Bghitha{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="product-detail">
+      <div class="gallery">
+        {% set imgs = images_list(product['images']) %}
+        {% if imgs %}
+          <img class="hero" id="heroImg" src="{{ url_for('static', filename=imgs[0]) }}" alt="{{ product['title'] }}">
+          <div class="thumbs-wrap">
+            <button class="thumbs-nav prev" type="button" aria-label="Previous images">‹</button>
+            <div class="thumbs" id="thumbs">
+              {% for img in imgs %}
+                <img src="{{ url_for('static', filename=img) }}" alt="thumb" />
+              {% endfor %}
+            </div>
+            <button class="thumbs-nav next" type="button" aria-label="Next images">›</button>
+          </div>
+        {% else %}
+          <div class="placeholder large">No Image</div>
+        {% endif %}
+      </div>
+      <div class="meta">
+        <h1>{{ product['title'] }}</h1>
+        <div class="rating-line">
+          <span class="stars"><span class="fill" style="width: {{ (rating_avg * 20) | round(0) }}%"></span></span>
+          <span class="count muted">{{ '%.1f' % rating_avg }} / 5 • {{ rating_count }} reviews</span>
+        </div>
+        {% set d = product['discount_cents']|int %}
+        {% set pc = product['price_cents']|int %}
+        {% set has_disc = (product['discount_cents'] is not none and d > 0 and d < pc) %}
+        {% set pct = ((pc - d) * 100 // pc) if has_disc else 0 %}
+        <div class="price big">
+          {% if has_disc %}
+            <span class="old-price">{{ price(product['price_cents']) }}</span>
+            <span class="new-price highlight">{{ price(product['discount_cents']) }}</span>
+            <span class="price-badge">-{{ pct }}%</span>
+          {% else %}
+            <span class="new-price highlight">{{ price(product['price_cents']) }}</span>
+          {% endif %}
+        </div>
+        <div class="p-badges">
+          <span class="badge small">Free Shipping</span>
+          <span class="badge small alt">Cash on Delivery</span>
+          <span class="badge small mute">Easy Returns</span>
+        </div>
+        <div class="stock">In stock: {{ product['stock'] }}</div>
+        <form method="post" action="{{ url_for('product_quick_checkout', pid=product['id'], slug=product['slug']) }}" class="card form quick-checkout">
+          <div class="subtle-title">Quick Checkout</div>
+          <div class="grid-2">
+            <div>
+              <input name="first_name" placeholder="First name" required />
+            </div>
+            <div>
+              <input name="last_name" placeholder="Last name" required />
+            </div>
+            <div>
+              <input name="phone" placeholder="Phone number" />
+            </div>
+            <div>
+              <input name="city" placeholder="City" required />
+            </div>
+            <div class="col-span-2">
+              <textarea name="notes" rows="3" placeholder="Note (optional)"></textarea>
+            </div>
+            <div>
+              <input class="qty-input" type="number" name="quantity" min="1" value="1" />
+            </div>
+            <div>
+              <button class="btn primary full">Checkout Now</button>
+            </div>
+          </div>
+        </form>
+        <div class="info-cards">
+          <div class="info-card">
+            <div class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M3 7h11a2 2 0 0 1 2 2v6h1.5a2.5 2.5 0 1 0 0-5H18V9a4 4 0 0 0-4-4H3v2zm1 9a3 3 0 1 0 6 0H4zm12 0a3 3 0 1 0 6 0h-6zM2 6h2v10H2V6z"/></svg>
+            </div>
+            <div>
+              <div class="title">Free shipping</div>
+              <div class="muted small">On orders over $50</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 21C7 21 3 17 3 12S7 3 12 3s9 4 9 9-4 9-9 9Zm-1-6.5l6-6-1.4-1.4L11 12.2 8.8 10l-1.4 1.4L11 14.5Z"/></svg>
+            </div>
+            <div>
+              <div class="title">Cash on delivery</div>
+              <div class="muted small">Pay when the order arrives</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2a10 10 0 1 0 10 10A10.011 10.011 0 0 0 12 2Zm1 15h-2v-2h2Zm0-4h-2V7h2Z"/></svg>
+            </div>
+            <div>
+              <div class="title">Easy returns</div>
+              <div class="muted small">14‑day return policy</div>
+            </div>
+          </div>
+          <div class="info-card">
+            <div class="icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden="true"><path fill="currentColor" d="M12 2 3 6v6c0 5 3.8 9.7 9 10 5.2-.3 9-5 9-10V6l-9-4Zm0 16-4.2-4.2 1.4-1.4L12 15.2l4.8-4.8 1.4 1.4L12 18Z"/></svg>
+            </div>
+            <div>
+              <div class="title">Warranty</div>
+              <div class="muted small">1‑year limited warranty</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="desc content-area">{{ product['description_html']|safe }}</div>
+        <div class="details muted">
+          <div>Category: <strong>{{ product['category'] or '—' }}</strong></div>
+          <div>SKU: <strong>{{ product['sku'] or '—' }}</strong></div>
+          <div>Product ID: <strong>{{ product['id'] }}</strong></div>
+          <div>Tags: <strong>{{ product['tags'] or '—' }}</strong></div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block before_footer %}
+  {% if reviews %}
+  <section class="section slim">
+    <h2 class="section-title small">Customer Reviews</h2>
+    <div class="reviews compact">
+      {% for r in reviews %}
+        {% set display_name = (r['name'] or 'Client') | trim %}
+        {% set initials = display_name[0]|upper if display_name else '★' %}
+        {% set rating_value = (r['rating'] or 0)|float %}
+        <div class="review card compact">
+          <div class="review-head">
+            <div class="review-avatar">{{ initials }}</div>
+            <div class="review-info">
+              <div class="who">{{ display_name }}</div>
+              <div class="when muted small">{{ r['created_at'][:19].replace('T',' ') }}</div>
+            </div>
+            <div class="review-stars">
+              <span class="score">{{ '%.1f' % rating_value }}</span>
+              <span class="stars"><span class="fill" style="width: {{ (rating_value * 20) | round(0) }}%"></span></span>
+            </div>
+          </div>
+          <div class="review-body">{{ r['body'] }}</div>
+        </div>
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
+{% endblock %}

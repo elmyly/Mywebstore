@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block title %}Newsletter Subscribers — Admin{% endblock %}
+{% block content %}
+  <section class="section admin">
+    <div class="title-row">
+      <h2 class="section-title">📨 Newsletter Subscribers</h2>
+      <a class="btn outline" href="{{ url_for('newsletter') }}" target="_blank" rel="noopener">Signup page</a>
+    </div>
+
+    <div class="card">
+      <div class="subtle-title">➕ Add subscriber</div>
+      <form class="admin-newsletter-add" method="post">
+        <input type="hidden" name="action" value="add">
+        <div class="newsletter-input admin">
+          <input type="email" name="email" placeholder="nouveau@client.com" required>
+          <button class="btn primary" type="submit">Add</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="card">
+      <div class="subtle-title">Subscribers</div>
+      {% if subscribers %}
+        <div class="table subscribers">
+          <div class="thead">
+            <div>Email</div>
+            <div>Joined</div>
+            <div></div>
+          </div>
+          {% for s in subscribers %}
+            <div class="trow subscriber-row">
+              <form class="subscriber-edit" method="post">
+                <input type="hidden" name="action" value="update">
+                <input type="hidden" name="id" value="{{ s['id'] }}">
+                <input type="email" name="email" value="{{ s['email'] }}" required>
+                <button class="btn outline small" type="submit">Save</button>
+              </form>
+              <div class="muted small">{{ (s['created_at'] or '')[:19].replace('T',' ') }}</div>
+              <form method="post" onsubmit="return confirm('Remove this subscriber?')">
+                <input type="hidden" name="action" value="delete">
+                <input type="hidden" name="id" value="{{ s['id'] }}">
+                <button class="btn outline small danger" type="submit">Delete</button>
+              </form>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty">No subscribers yet.</div>
+      {% endif %}
+    </div>
+  </section>
+{% endblock %}

@@ -1,0 +1,104 @@
+<div class="card product">
+  {% set primary = first_image(product['images']) %}
+  {% set d = (product['discount_cents'] or 0)|int %}
+  {% set pc = (product['price_cents'] or 0)|int %}
+  {% set has_discount = (product['discount_cents'] is not none and d > 0 and d < pc) %}
+  {% set pct = ((pc - d) * 100 // pc) if has_discount else 0 %}
+  {% set color_palette = {
+    'black': '#111827',
+    'white': '#ffffff',
+    'red': '#ef4444',
+    'blue': '#2563eb',
+    'light blue': '#60a5fa',
+    'navy': '#1e3a8a',
+    'green': '#10b981',
+    'mint': '#6ee7b7',
+    'teal': '#0f766e',
+    'yellow': '#facc15',
+    'orange': '#fb923c',
+    'pink': '#f472b6',
+    'purple': '#a855f7',
+    'lavender': '#c4b5fd',
+    'burgundy': '#7c1d34',
+    'brown': '#92400e',
+    'beige': '#f5e6ca',
+    'gold': '#fbbf24',
+    'silver': '#d1d5db',
+    'grey': '#6b7280',
+    'gray': '#6b7280'
+  } %}
+  {% set ns = namespace(colors=[]) %}
+  {% for tag in (product['tags'] or '').split(',') %}
+    {% set clean = tag.strip() %}
+    {% if clean %}
+      {% set key = clean.lower() %}
+      {% if key in color_palette %}
+        {% set ns.colors = ns.colors + [clean] %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  {% set colors = ns.colors %}
+  {% set stock_val = product['stock'] if product['stock'] is not none else None %}
+  {% set stock_int = stock_val|int if stock_val is not none else None %}
+  <a href="{{ url_for('product_detail', pid=product['id'], slug=product['slug']) }}" class="thumb">
+    {% if stock_int is not none and 0 < stock_int <= 5 %}
+      <span class="stock-flag">Low stock • {{ stock_int }}</span>
+    {% endif %}
+    {% if product['id'] in bestseller_ids %}
+      <span class="best-flag" title="Top seller">🔥 Best Seller</span>
+    {% endif %}
+    {% if primary %}
+      <img src="{{ url_for('static', filename=primary) }}" alt="{{ product['title'] }}"/>
+    {% else %}
+      <div class="placeholder">No Image</div>
+    {% endif %}
+    {% if colors %}
+      <div class="color-ribbon">
+        {% for color in colors[:4] %}
+          {% set key = color.lower() %}
+          {% set swatch = color_palette.get(key, '#cbd5f5') %}
+          <span class="swatch" style="--swatch-color: {{ swatch }}" title="{{ color }}"></span>
+        {% endfor %}
+        {% if colors|length > 4 %}
+          <span class="swatch more">+{{ colors|length - 4 }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </a>
+  <div class="content">
+    <a href="{{ url_for('product_detail', pid=product['id'], slug=product['slug']) }}" class="product-title">{{ product['title'] }}</a>
+    {% set r = rating_for(product['id']) %}
+    {% set main_price = price(d) if has_discount else price(pc) %}
+    <div class="meta-row">
+      <div class="price-stack">
+        <div class="price-row">
+          <span class="price-current">{{ main_price }}</span>
+          {% if has_discount %}
+            <span class="price-old">{{ price(pc) }}</span>
+          {% endif %}
+        </div>
+      </div>
+      {% if has_discount %}
+        <span class="discount-chip">-{{ pct }}%</span>
+      {% endif %}
+    </div>
+    {% if stock_int is not none and stock_int == 0 %}
+      <div class="stock-alert out">Out of stock</div>
+    {% endif %}
+    <div class="footer-row">
+      <div class="rating-line">
+        <span class="stars"><span class="fill" style="width: {{ (r[0] * 20) | round(0) }}%"></span></span>
+        <span class="count muted">{{ r[1] }}</span>
+      </div>
+      <form method="post" action="{{ url_for('add_to_cart') }}" class="quick-add">
+        <input type="hidden" name="product_id" value="{{ product['id'] }}" />
+        <input type="hidden" name="quantity" value="1" />
+        <button class="icon-btn" type="submit" aria-label="Add to cart">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M8 20.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0Zm11 0a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0ZM4.24 5.5H21l-1.6 8.01a2 2 0 0 1-1.97 1.62H9.52a2 2 0 0 1-1.95-1.56L5.3 3.5H3" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+      </form>
+    </div>
+  </div>
+</div>

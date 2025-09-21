@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% block title %}Order Ticket — #{{ order['id'] }}{% endblock %}
+{% block content %}
+  <section class="section">
+    <div class="title-row">
+      <h2 class="section-title">Order Ticket</h2>
+      <div class="actions">
+        <button class="btn" onclick="window.print()">Print</button>
+      </div>
+    </div>
+    <div class="ticket card">
+      <div class="ticket-head">
+        {% if store_logo %}
+          <img class="logo" src="{{ store_logo }}" alt="logo" />
+        {% else %}
+          <div class="brand mark">Bghitha</div>
+        {% endif %}
+        <div class="muted">Order #{{ public_code }} • {{ order['created_at'][:19].replace('T',' ') }}</div>
+      </div>
+      <div class="ticket-body">
+        <div class="ticket-info">
+          <div class="subtle-title">Ship To</div>
+          <div class="title">{{ order['customer_name'] }}</div>
+          <div class="muted">{{ order['email'] }} • {{ order['phone'] or '—' }}</div>
+          <div>{{ order['address'] }}</div>
+          <div class="muted">{{ order['city'] }}, {{ order['country'] }}</div>
+          <div class="muted">Status: <strong>{{ order['status'] }}</strong></div>
+        </div>
+        <div class="ticket-codes">
+          <img class="qr" src="{{ qr_img }}" alt="QR to order page"/>
+          <img class="barcode" src="{{ barcode_img }}" alt="Order ID barcode"/>
+          <div class="muted small">{{ order_url }}</div>
+        </div>
+      </div>
+      <div class="subtle-title">Items</div>
+      <div class="table compact">
+        <div class="thead">
+          <div>Title</div>
+          <div>Qty</div>
+          <div>Unit</div>
+          <div>Line</div>
+        </div>
+        {% for i in items %}
+          <div class="trow">
+            <div>{{ i['title'] }}</div>
+            <div>{{ i['quantity'] }}</div>
+            <div>{{ price(i['price_cents']) }}</div>
+            <div>{{ price(i['line_total']) }}</div>
+          </div>
+        {% endfor %}
+        <div class="trow total">
+          <div></div><div></div><div>Total</div><div>{{ price(order['total_cents']) }}</div>
+        </div>
+      </div>
+      <div class="handwrite">
+        <div contenteditable="true" class="handwrite-box" spellcheck="false"></div>
+      </div>
+    </div>
+  </section>
+  <style>
+    .ticket{padding:24px;}
+    .ticket-body{display:grid; grid-template-columns:1.2fr 1fr; gap:20px; align-items:center}
+    .ticket-info .title{font-weight:700; font-size:20px; margin-bottom:6px}
+    .ticket-codes{display:grid; gap:6px; justify-items:center}
+    .ticket-codes .qr{width:160px; height:160px; object-fit:contain}
+    .ticket-codes .barcode{width:280px; height:auto}
+    .ticket-head{display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px}
+    .ticket-head .logo{height:44px}
+    .handwrite{margin-top:14px}
+    .handwrite-box{min-height:100px; border:2px dashed #cbd5e1; border-radius:12px; padding:10px}
+    @media print{
+      .site-header, .site-footer, .flash-wrap, .title-row{display:none !important}
+      .container{max-width:100%; padding:0}
+      body{background:#fff}
+      .ticket{border:1px solid #ddd; border-radius:0}
+    }
+  </style>
+{% endblock %}

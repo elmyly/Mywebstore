@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}Bghitha — Inspirations pour la maison et le quotidien{% endblock %}
+{% block content %}
+  <section class="hero">
+    <div class="hero-inner">
+      <h1>Tout pour embellir votre quotidien</h1>
+      <p>Décoration, bien-être, papeterie et idées cadeaux soigneusement sélectionnés. Commandez en toute sérénité, paiement à la livraison.</p>
+      <div class="actions">
+        <a class="btn primary" href="{{ url_for('shop') }}">Explorer le catalogue</a>
+        <a class="btn ghost" href="#featured">Voir les coups de cœur</a>
+      </div>
+    </div>
+    <div class="orb orb-a"></div>
+    <div class="orb orb-b"></div>
+    <div class="orb orb-c"></div>
+  </section>
+
+  <section id="featured" class="section">
+    <h2 class="section-title">Nos coups de cœur</h2>
+    {% if products %}
+      <div class="grid">
+        {% for product in products %}
+          {% include 'components/product_card.html' %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty">Aucun article n’est disponible pour le moment. Revenez bientôt !</div>
+    {% endif %}
+  </section>
+{% endblock %}
