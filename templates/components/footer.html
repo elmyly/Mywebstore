@@ -11,15 +11,6 @@
       <a href="{{ url_for('faq') }}">FAQ</a>
       <a href="{{ url_for('cart') }}">Panier</a>
     </div>
-    <div>
-      <div class="foot-title">Espace Admin</div>
-      {% if admin_username %}
-        <a href="{{ url_for('admin_dashboard') }}">Dashboard</a>
-        <a href="{{ url_for('admin_logout') }}">Logout</a>
-      {% else %}
-        <a href="{{ url_for('admin_login') }}">Login</a>
-      {% endif %}
-    </div>
-  </div>
+   
   <div class="footer-bottom">© {{ 2025 }} Bghitha — Tous droits réservés.</div>
 </footer>
