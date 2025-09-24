@@ -881,6 +881,7 @@ body.modal-open{overflow:hidden}
 .newsletter-points{display:grid; gap:8px; margin:8px 0 0; padding:0; list-style:none; color:var(--muted); font-size:14px}
 .newsletter-points li{display:flex; align-items:flex-start; gap:10px}
 .newsletter-points li::before{content:"•"; color:var(--brand-a); font-size:18px; line-height:1}
+.newsletter-form-note{margin:4px 0 0 4px}
 .hero-visual{display:flex; align-items:center; justify-content:center}
 .card-preview{position:relative; border-radius:26px; background:#0f172a; color:#fff; padding:32px; width:100%; max-width:360px; box-shadow:0 30px 60px rgba(15,23,42,.35); display:grid; gap:20px}
 .card-preview .badge{display:inline-flex; align-items:center; gap:6px; background:rgba(148,204,255,.18); color:#e0f2ff; padding:6px 12px; border-radius:12px; font-weight:700; font-size:12px; letter-spacing:.08em; text-transform:uppercase}
@@ -897,12 +898,14 @@ body.modal-open{overflow:hidden}
 .newsletter-featured{display:grid; gap:20px}
 .featured-head{display:flex; flex-direction:column; gap:6px}
 .featured-head h2{margin:0; font-size:24px}
+.featured-head p{margin:0; color:var(--muted)}
 .featured-grid{display:grid; gap:18px; grid-template-columns:repeat(auto-fit, minmax(220px, 1fr))}
 .featured-tile{background:#fff; border-radius:22px; overflow:hidden; box-shadow:0 18px 44px rgba(31,49,71,.16); display:grid; grid-template-rows:auto 1fr}
 .featured-tile img{width:100%; height:180px; object-fit:cover}
 .featured-tile .img-placeholder{display:grid; place-items:center; height:180px; background:linear-gradient(135deg, rgba(61,141,255,.16), rgba(143,197,255,.20)); font-size:32px}
 .tile-body{padding:18px; display:grid; gap:8px}
 .tile-body h3{margin:0; font-size:18px}
+.tile-body p{margin:0; color:color-mix(in oklab, var(--muted) 85%, #000)}
 .tile-body .price{margin:0; font-weight:800; color:var(--brand-a)}
 .newsletter-input.admin{max-width:420px; background:#fff}
 .admin-newsletter-add{margin-top:10px}
