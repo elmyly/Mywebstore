@@ -28,7 +28,7 @@ def create_app() -> Flask:
         NEWSLETTER_FROM_EMAIL=os.environ.get("NEWSLETTER_FROM_EMAIL", "elmylypro@gmail.com"),
         NEWSLETTER_FROM_NAME=os.environ.get("NEWSLETTER_FROM_NAME", "Bghitha"),
         NEWSLETTER_APP_PASSWORD=os.environ.get("NEWSLETTER_APP_PASSWORD", "nsaqigjjvrtmgnak"),
-        SITE_URL=os.environ.get("SITE_URL", "http://localhost:5000"),
+        SITE_URL=os.environ.get("SITE_URL", "https://bghitha.com"),
         FAQ_AI_API_KEY=os.environ.get("FAQ_AI_API_KEY", "AIzaSyD4hSRHztjgXFLc8bjLA0McDDnIjp2Js14"),
     )
 
