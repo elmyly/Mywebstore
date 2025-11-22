@@ -2,13 +2,49 @@
 {% block title %}Newsletter — Bghitha{% endblock %}
 {% block content %}
   <section class="section newsletter-simple">
-    <div class="newsletter-banner">Rejoignez la liste lumineuse de Bghitha ✨ </div>
-    <form method="post" class="newsletter-simple-form">
-      <label class="sr-only" for="newsletterEmail">Adresse e-mail</label>
-      <div class="newsletter-simple-row">
-        <input id="newsletterEmail" type="email" name="email" placeholder="vous@exemple.com" required />
-        <button class="btn primary" type="submit">Je m'inscris</button>
-      </div>
-    </form>
+    <div class="newsletter-banner">
+      <span class="newsletter-eyebrow">Newsletter exclusive</span>
+      <h1>Rejoignez la liste lumineuse de Bghitha ✨</h1>
+      <p>
+        Un condensé mensuel d'inspiration, de conseils bien-être et d'offres que nous réservons uniquement à notre
+        communauté privilégiée.
+      </p>
+    </div>
+
+    <div class="newsletter-card">
+      <form method="post" class="newsletter-simple-form">
+        <label class="sr-only" for="newsletterEmail">Adresse e-mail</label>
+        <div class="newsletter-simple-row">
+          <input id="newsletterEmail" type="email" name="email" placeholder="vous@exemple.com" required />
+          <button class="btn primary" type="submit">Je m'inscris</button>
+        </div>
+      </form>
+
+      <ul class="newsletter-benefits">
+        <li>
+          <span class="benefit-icon" aria-hidden="true">🌿</span>
+          <div>
+            <h3>Des rituels qui vous ressemblent</h3>
+            <p>Recevez des recommandations personnalisées pour illuminer chaque saison de votre routine bien-être.</p>
+          </div>
+        </li>
+        <li>
+          <span class="benefit-icon" aria-hidden="true">🎁</span>
+          <div>
+            <h3>Accès anticipé</h3>
+            <p>Profitez de préventes et d'offres privées avant tout le monde, directement dans votre boîte mail.</p>
+          </div>
+        </li>
+        <li>
+          <span class="benefit-icon" aria-hidden="true">✨</span>
+          <div>
+            <h3>Une dose de lumière</h3>
+            <p>Chaque newsletter est un souffle de douceur, d'optimisme et de découvertes inspirantes.</p>
+          </div>
+        </li>
+      </ul>
+
+      <p class="newsletter-footnote">Pas de spam, uniquement des nouvelles lumineuses. Vous pouvez vous désinscrire à tout moment.</p>
+    </div>
   </section>
 {% endblock %}

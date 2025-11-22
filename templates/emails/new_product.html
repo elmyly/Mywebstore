@@ -26,7 +26,11 @@
     <div class="wrapper">
       <div class="content">
         <p>Bonjour,</p>
-        <p>Nous venons d'ajouter <strong>{{ product['title'] }}</strong> à notre collection. Une pièce sélectionnée avec soin, prête à illuminer votre quotidien.</p>
+        <p>
+          Nous venons d'ajouter <strong>{{ product['title'] }}</strong> à notre collection sur
+          <a href="https://bghitha.com" style="color:#3d8dff; text-decoration:none;">bghitha.com</a>.
+          Une pièce sélectionnée avec soin, prête à illuminer votre quotidien.
+        </p>
         <div class="product-card">
           {% if product_cover_url %}
             <img src="{{ product_cover_url }}" alt="{{ product['title'] }}" style="display:block; width:100%; height:auto; border:0; outline:none; text-decoration:none;" />
@@ -35,10 +39,14 @@
             <h2>{{ product['title'] }}</h2>
             <p>{{ product['description_html']|striptags|truncate(220, True, '…') }}</p>
             <p style="font-size:18px; font-weight:700; color:#0f766e;">{{ price(product['price_cents']) }}</p>
-            <p><a class="cta" href="{{ product_url }}">Découvrir le produit</a></p>
+            <p><a class="cta" href="{{ product_url }}">Découvrir sur bghitha.com</a></p>
           </div>
         </div>
-        <p>Besoin d'aide ou envie de partager une idée ? Répondez simplement à ce message, nous lisons chaque réponse avec attention.</p>
+        <p>
+          Besoin d'aide ou envie de partager une idée ? Répondez simplement à ce message, nous lisons chaque réponse avec
+          attention.
+        </p>
+        <p>Envie d'explorer davantage ? Visitez <a href="https://bghitha.com" style="color:#3d8dff;">bghitha.com</a> pour découvrir toutes nos nouveautés.</p>
         <p>À très vite,<br>L'équipe Bghitha</p>
       </div>
       <div class="footer">
