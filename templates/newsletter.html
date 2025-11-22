@@ -1,14 +1,84 @@
 {% extends 'base.html' %}
 {% block title %}Newsletter — Bghitha{% endblock %}
 {% block content %}
-  <section class="section newsletter-simple">
-    <div class="newsletter-banner">Rejoignez la liste lumineuse de Bghitha ✨ </div>
-    <form method="post" class="newsletter-simple-form">
-      <label class="sr-only" for="newsletterEmail">Adresse e-mail</label>
-      <div class="newsletter-simple-row">
-        <input id="newsletterEmail" type="email" name="email" placeholder="vous@exemple.com" required />
-        <button class="btn primary" type="submit">Je m'inscris</button>
+  <section class="section newsletter">
+    <div class="newsletter-hero">
+      <div class="hero-copy">
+        <span class="pill">La lettre lumineuse</span>
+        <h1>Illuminez votre routine avec notre newsletter</h1>
+        <p>Recevez chaque semaine des inspirations bien-être et déco, des histoires de créateurs et des surprises rien que pour vous.</p>
+        <ul class="newsletter-points">
+          <li>Découvertes produit en avant-première et coulisses du studio.</li>
+          <li>Rituels bien-être faciles à intégrer dans votre quotidien.</li>
+          <li>Offres exclusives, ateliers privés et cadeaux surprises.</li>
+        </ul>
+        <form method="post" class="newsletter-form">
+          <label class="sr-only" for="newsletterEmail">Adresse e-mail</label>
+          <div class="newsletter-input">
+            <input id="newsletterEmail" type="email" name="email" placeholder="vous@exemple.com" required />
+            <button class="btn primary" type="submit">Je m'inscris</button>
+          </div>
+          <p class="newsletter-form-note muted small">Pas de spam, juste des ondes positives. Vous pouvez vous désinscrire en un clic.</p>
+        </form>
       </div>
-    </form>
+      <div class="hero-visual">
+        <div class="card-preview">
+          <span class="badge">Prochaine édition</span>
+          <div class="vignette"></div>
+          <div class="card-body">
+            <h3>Renouveau printanier</h3>
+            <p>Un rituel bien-être guidé, nos favoris artisanaux et une surprise réservée à la communauté.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="newsletter-extra">
+      <div class="extra-card">
+        <h2>Ce que vous recevez</h2>
+        <div class="extra-grid">
+          <div>
+            <strong>Conseils bien-être</strong>
+            <p>Des routines simples pour respirer, se recentrer et apporter plus de douceur chez vous.</p>
+          </div>
+          <div>
+            <strong>Inspiration déco</strong>
+            <p>Des idées stylées pour sublimer votre intérieur avec des pièces sélectionnées par Bghitha.</p>
+          </div>
+          <div>
+            <strong>Accès privilégié</strong>
+            <p>Offres exclusives, invitations aux ateliers et avant-premières réservées à nos abonnés.</p>
+          </div>
+        </div>
+      </div>
+      <div class="newsletter-featured">
+        <div class="featured-head">
+          <h2>Un aperçu des pépites partagées</h2>
+          <p>Un mélange d'inspirations, de tutoriels et de coups de cœur pour illuminer chaque saison.</p>
+        </div>
+        <div class="featured-grid">
+          <article class="featured-tile">
+            <div class="img-placeholder">🕯️</div>
+            <div class="tile-body">
+              <h3>Atelier bougie parfumée</h3>
+              <p>Un pas-à-pas pour créer une ambiance chaleureuse avec des fragrances naturelles.</p>
+            </div>
+          </article>
+          <article class="featured-tile">
+            <div class="img-placeholder">🌿</div>
+            <div class="tile-body">
+              <h3>Rituel respiration</h3>
+              <p>Trois minutes pour relâcher la pression et se reconnecter à soi, guidées par notre équipe.</p>
+            </div>
+          </article>
+          <article class="featured-tile">
+            <div class="img-placeholder">🎁</div>
+            <div class="tile-body">
+              <h3>Offres secrètes</h3>
+              <p>Des surprises réservées aux abonné·e·s avec des remises limitées dans le temps.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </div>
   </section>
 {% endblock %}
