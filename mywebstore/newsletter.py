@@ -75,7 +75,7 @@ def send_new_product_announcement(app, product_row: Mapping[str, object]) -> Non
         _external=True,
     )
 
-    subject = f"Nouveau produit \u2728 {product_row.get('title', 'Bghitha')}"
+    subject = f"Nouveau produit \u2728 {product_row.get('title', 'Testwebstore_brand_name')}"
     cover: Optional[str] = None
     images = product_row.get("images")
     if images:
