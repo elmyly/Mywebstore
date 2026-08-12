@@ -238,74 +238,107 @@ input::placeholder, textarea::placeholder{color:#95a2bb}
   flex-direction:column;
   align-items:center;
   gap:48px;
+  padding:140px 24px 120px;
+  background:linear-gradient(180deg, color-mix(in oklab, var(--brand-a) 7%, #f8fbff) 0%, #ffffff 50%, color-mix(in oklab, #e7f1ff 70%, white) 100%);
+  overflow:hidden;
 }
 
 .newsletter-simple::before,
 .newsletter-simple::after{
   content:"";
   position:absolute;
-  inset:auto;
-  width:360px;
-  height:360px;
+  width:420px;
+  height:420px;
   border-radius:50%;
   filter:blur(0);
-  opacity:.35;
+  opacity:.4;
   z-index:-1;
+  transform:translate3d(0,0,0);
 }
 
 .newsletter-simple::before{
-  background:radial-gradient(circle, color-mix(in oklab, var(--brand-a) 35%, white) 0%, transparent 70%);
-  top:40px;
-  left:calc(50% - 280px);
+  background:radial-gradient(circle, color-mix(in oklab, var(--brand-a) 42%, white) 0%, transparent 68%);
+  top:-120px;
+  left:-160px;
 }
 
 .newsletter-simple::after{
-  background:radial-gradient(circle, color-mix(in oklab, var(--brand-b) 45%, white) 0%, transparent 70%);
-  bottom:20px;
-  right:calc(50% - 280px);
+  background:radial-gradient(circle, color-mix(in oklab, var(--brand-b) 46%, white) 0%, transparent 70%);
+  bottom:-140px;
+  right:-120px;
 }
 
 .newsletter-banner{
   position:relative;
-  width:100%;
-  margin-top:-60px;
-  padding:120px 24px 100px;
-  border-radius:0 0 48px 48px;
-  color:#3d8dff;
+  width:min(860px, 100%);
+  padding:72px clamp(24px, 5vw, 56px);
+  border-radius:40px;
+  background:linear-gradient(135deg, rgba(61,141,255,.16), rgba(255,255,255,.08));
+  color:var(--text);
   text-align:center;
-  font-size:clamp(32px, 5vw, 48px);
-  font-weight:800;
-  line-height:1.08;
-  letter-spacing:.02em;
-  display:flex;
-  flex-direction:column;
+  box-shadow:0 34px 84px rgba(15,23,42,.14);
+  backdrop-filter:blur(18px);
+  border:1px solid color-mix(in oklab, var(--brand-a) 25%, rgba(255,255,255,.4));
+}
+
+.newsletter-eyebrow{
+  display:inline-flex;
   align-items:center;
-  justify-content:center;
-  gap:16px;
-  text-shadow:0 14px 36px rgba(12, 28, 54, .25);
+  gap:10px;
+  margin-bottom:18px;
+  padding:8px 18px;
+  border-radius:999px;
+  background:rgba(61,141,255,.14);
+  color:color-mix(in oklab, var(--brand-a) 75%, #1e3a8a);
+  font-size:14px;
+  font-weight:700;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+}
+
+.newsletter-banner h1{
+  margin:0;
+  font-size:clamp(36px, 6vw, 54px);
+  font-weight:800;
+  line-height:1.05;
+  letter-spacing:-.01em;
+}
+
+.newsletter-banner p{
+  margin:20px auto 0;
+  max-width:620px;
+  font-size:18px;
+  line-height:1.6;
+  color:color-mix(in oklab, var(--muted) 80%, #1f2937);
+}
+
+.newsletter-card{
+  width:min(860px, 100%);
+  display:grid;
+  gap:32px;
+  padding:46px clamp(20px, 5vw, 56px);
+  border-radius:36px;
+  background:#ffffff;
+  box-shadow:0 32px 72px rgba(15,23,42,.12);
+  border:1px solid color-mix(in oklab, var(--border) 60%, rgba(61,141,255,.18));
 }
 
 .newsletter-simple-form{
-  width:min(640px, 100%);
+  width:100%;
   display:flex;
   flex-direction:column;
   gap:12px;
-  padding:0;
-  background:transparent;
-  border-radius:0;
-  box-shadow:none;
-  backdrop-filter:none;
 }
 
 .newsletter-simple-row{
   display:flex;
   align-items:center;
   gap:14px;
-  padding:14px;
-  border-radius:20px;
-  background:rgba(255,255,255,.88);
-  border:1px solid color-mix(in oklab, var(--brand-a) 22%, var(--border));
-  box-shadow:0 20px 46px rgba(31,49,71,.1);
+  padding:16px;
+  border-radius:22px;
+  background:color-mix(in oklab, rgba(61,141,255,.08) 55%, #ffffff 45%);
+  border:1px solid color-mix(in oklab, var(--brand-a) 24%, var(--border));
+  box-shadow:0 24px 60px rgba(15,23,42,.08);
 }
 
 .newsletter-simple-row input{
@@ -327,27 +360,87 @@ input::placeholder, textarea::placeholder{color:#95a2bb}
 
 .newsletter-simple-row .btn{
   flex-shrink:0;
-  padding:16px 26px;
+  padding:16px 28px;
   font-size:16px;
   white-space:nowrap;
+  box-shadow:0 16px 34px rgba(61,141,255,.28);
+}
+
+.newsletter-benefits{
+  display:grid;
+  gap:20px;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+  list-style:none;
+  margin:0;
+  padding:0;
+}
+
+.newsletter-benefits li{
+  display:flex;
+  align-items:flex-start;
+  gap:18px;
+  padding:22px;
+  border-radius:24px;
+  background:color-mix(in oklab, rgba(61,141,255,.08) 35%, #ffffff 65%);
+  border:1px solid color-mix(in oklab, var(--border) 50%, rgba(61,141,255,.12));
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.newsletter-benefits li:hover{
+  transform:translateY(-4px);
+  box-shadow:0 24px 56px rgba(15,23,42,.12);
+}
+
+.benefit-icon{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:46px;
+  height:46px;
+  border-radius:16px;
+  font-size:24px;
+  background:#fff;
+  box-shadow:0 14px 30px rgba(15,23,42,.12);
+}
+
+.newsletter-benefits h3{
+  margin:0 0 6px;
+  font-size:18px;
+  font-weight:700;
+}
+
+.newsletter-benefits p{
+  margin:0;
+  color:color-mix(in oklab, var(--muted) 82%, #1f2937);
+  font-size:15px;
+  line-height:1.6;
+}
+
+.newsletter-footnote{
+  margin:0;
+  font-size:14px;
+  color:color-mix(in oklab, var(--muted) 85%, #1f2937);
+  text-align:center;
+}
+
+@media (max-width: 900px){
+  .newsletter-simple{
+    padding:120px 20px 100px;
+  }
+
+  .newsletter-card{
+    padding:38px 28px;
+  }
 }
 
 @media (max-width: 600px){
   .newsletter-simple{
     padding:100px 16px 90px;
+    gap:38px;
   }
 
   .newsletter-banner{
-    margin-top:-40px;
-    padding:90px 20px 80px;
-    font-size:clamp(30px, 8vw, 34px);
-    border-radius:0 0 36px 36px;
-  }
-
-  .newsletter-simple-form{
-    padding:0;
-    border-radius:0;
-    box-shadow:none;
+    padding:64px 22px;
   }
 
   .newsletter-simple-row{
@@ -358,6 +451,10 @@ input::placeholder, textarea::placeholder{color:#95a2bb}
 
   .newsletter-simple-row .btn{
     width:100%;
+  }
+
+  .newsletter-benefits{
+    grid-template-columns:1fr;
   }
 }
 
